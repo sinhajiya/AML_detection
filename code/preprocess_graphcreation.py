@@ -4,10 +4,6 @@ import pandas as pd
 from collections import defaultdict
 from datetime import datetime
 
-# --------------------------------------------------
-# LOAD AMLNET TRANSACTIONS (KEEP LABELS)
-# --------------------------------------------------
-
 def load_transactions(
     csv_path="/content/drive/MyDrive/AlmnetFraudDataset/AMLNet_August 2025.csv",
     src_col="nameOrig",

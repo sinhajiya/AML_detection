@@ -2,8 +2,8 @@ import pandas as pd
 from collections import defaultdict
 from datetime import datetime, timedelta
 
-TIME_WINDOW = timedelta(hours=1)     # motif window
-MIN_FAN = 3                          # fan-in / fan-out threshold
+TIME_WINDOW = timedelta(hours=1)    
+MIN_FAN = 3                          
 
 def extract_motifs(out_edges, in_edges, window):
     chain = defaultdict(int)
@@ -12,7 +12,6 @@ def extract_motifs(out_edges, in_edges, window):
     cycle = defaultdict(int)
     repeat = defaultdict(int)
 
-    # ---------- CHAIN: A -> B -> C ----------
     for A in out_edges:
         for B, t1, _ in out_edges[A]:
             for C, t2, _ in out_edges.get(B, []):
@@ -22,7 +21,6 @@ def extract_motifs(out_edges, in_edges, window):
                     break
                 chain[A] += 1
 
-    # ---------- FAN-OUT: A -> many ----------
     for A, edges in out_edges.items():
         edges = sorted(edges, key=lambda x: x[1])
         for i in range(len(edges)):
@@ -35,7 +33,6 @@ def extract_motifs(out_edges, in_edges, window):
             if len(receivers) >= MIN_FAN:
                 fanout[A] += 1
 
-    # ---------- FAN-IN: many -> A ----------
     for A, edges in in_edges.items():
         edges = sorted(edges, key=lambda x: x[1])
         for i in range(len(edges)):
@@ -48,7 +45,6 @@ def extract_motifs(out_edges, in_edges, window):
             if len(senders) >= MIN_FAN:
                 fanin[A] += 1
 
-    # ---------- CYCLE: A -> B -> C -> A ----------
     for A in out_edges:
         for B, t1, _ in out_edges[A]:
             for C, t2, _ in out_edges.get(B, []):
@@ -58,7 +54,6 @@ def extract_motifs(out_edges, in_edges, window):
                     if A2 == A and t3 > t2 and t3 - t1 <= window:
                         cycle[A] += 1
 
-    # ---------- REPEAT: A -> B repeatedly ----------
     for A, edges in out_edges.items():
         edges = sorted(edges, key=lambda x: (x[0], x[1]))
         for i in range(len(edges) - 1):

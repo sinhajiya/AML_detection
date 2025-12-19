@@ -2,9 +2,8 @@ import numpy as np
 import pandas as pd
 import onnxruntime as ort
 
-from code.preprocess_graphcreation import load_transactions
+from preprocess_graphcreation import load_transactions
 from sklearn.metrics import average_precision_score, roc_auc_score
-
 
 onnx_model_path = r'isolation_forest.onnx'
 feat_train_path = r"AMLNet_Motifs\AMLNet_Motifs_singlewindow\feat_train.parquet"

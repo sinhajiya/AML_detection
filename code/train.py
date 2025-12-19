@@ -1,5 +1,5 @@
-from code.graphcreation import load_transactions, build_temporal_graph
-from motifs import motifs
+from preprocess_graphcreation import load_transactions, build_temporal_graph
+from preprocess_motifs import motifs
 
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
@@ -7,17 +7,15 @@ from sklearn.pipeline import Pipeline
 
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
-from sklearn.metrics import classification_report
 
-import onnx
 import onnxruntime as ort
 import numpy as np
 import pandas as pd
 import os
 import joblib
 
-dataset_path = ""
-onnx_path = "aml_motif_isoforest.onnx"
+dataset_path = "E:\codes\AML_detection\AlmnetFraudDataset\AMLNet_August 2025.csv"
+onnx_path = "E:\codes\AML_detection\model\isolation_forest.onnx"
 
 df = load_transactions(
     csv_path=dataset_path,
@@ -68,7 +66,6 @@ MODEL_DIR = "models/IsolationForestModel"
 os.makedirs(MODEL_DIR, exist_ok=True)
 model = iso
 
-# Save sklearn model
 sklearn_model_path = os.path.join(MODEL_DIR, "isolation_forest.pkl")
 joblib.dump(model, sklearn_model_path)
 
@@ -79,7 +76,6 @@ test_features = motifs( test_out_dr, test_in_dr)
 X_test_ = test_features.values
 X_test = scaler.fit_transform(X_test_)
 
-# Infer input feature count
 
 X_sample = X_test
 n_features = X_sample.shape[1]
@@ -109,7 +105,6 @@ with open(onnx_model_path, "wb") as f:
 
 print("ONNX model saved at:", onnx_model_path)
 
-# checking the consistency between sklearn and onnx inference
 
 sk_pred = model.predict(X_sample)
 sk_score = model.decision_function(X_sample)
@@ -123,13 +118,11 @@ onnx_pred = session.run(None, {input_name: X_sample.astype(np.float32)})[0]
 
 
 
-
 print("Sklearn prediction:", sk_pred[:10])
 print("ONNX prediction   :", onnx_pred[:10])
 
-onnx_pred = onnx_pred.ravel()   # or .squeeze()
+onnx_pred = onnx_pred.ravel()   
 
-assert np.allclose(sk_pred, onnx_pred), "❌ ONNX and sklearn outputs differ"
-print("✅ ONNX and sklearn inference MATCH")
-
+assert np.allclose(sk_pred, onnx_pred), " ONNX and sklearn outputs differ"
+print("ONNX and sklearn inference matches..")
 
