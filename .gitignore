@@ -1,0 +1,6 @@
+# Large datasets
+AlmnetFraudDataset/
+*.csv
+*.parquet
+*.zip
+*.tar.gz

@@ -1,0 +1,14 @@
+AMLNet
+Synthetic Anti-Money Laundering Transaction Dataset
+
+DESCRIPTION:
+This dataset contains over 1 million synthetic financial transactions (1,090,173) generated using the AMLNet framework for anti-money laundering research.
+
+CONTENTS:
+- 1,090,173 total transactions across multiple categories
+- 1,745 labeled money laundering transactions (~0.16%)
+- 195-day simulation period
+- AUSTRAC-compliant suspicious patterns
+
+DATA FORMAT:
+CSV file with 17 columns containing transaction details.
