@@ -1,6 +1,13 @@
 # Problem Statement
 
+Build an AI-based system that detects potential money laundering risks by learning from transactional
+patterns, behavioral anomalies, and network relationships in financial data. The system must work
+strictly on synthetic or fully anonymized simulated datasets, identify suspicious entities or flows,
+and export the final trained model in ONNX format.
+
 # Architecture overview
+
+We had AMLnet dataset from which we create graph having nodes and edges along with timestap, from this graph we identifies motifs(observed patterns for any particular user) all these comes under preprocessing. After this preprocessing step we use Isolated classifier to calculate the score then based on this score, we use top k method to calculate recall.
 
 
 # Env setup
