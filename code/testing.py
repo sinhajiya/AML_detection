@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import onnxruntime as ort
 
-from code.graphcreation import load_transactions
+from code.preprocess_graphcreation import load_transactions
 from sklearn.metrics import average_precision_score, roc_auc_score
 
 
